@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import { Product } from "@/types";
 
 interface IProps {
@@ -10,16 +10,6 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
   const [products, setProducts] = useState<Product[]>(data);
   const [inputValue, setInputValue] = useState("");
   const [filter, setFilter] = useState("all");
-
-  //   useEffect(() => {
-  //     fetchProducts();
-  //   }, []);
-
-  //   const fetchProducts = async () => {
-  //     const response = await fetch("https://example.com/products");
-  //     const data = await response.json();
-  //     setProducts(data);
-  //   };
 
   const add = () => {
     if (!!inputValue) {
@@ -32,9 +22,7 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
         },
       ]);
     }
-    // products.push({ id: Date.now(), title: inputValue, archived: false });
-    // setProducts(products);
-    // setInputValue("");
+    setInputValue("");
   };
 
   const toggle = (id: number) => {
@@ -52,13 +40,7 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
   };
 
   const remove = (id: number) => {
-    let newProducts = [];
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id !== id) {
-        newProducts.push(products[i]);
-      }
-    }
-    setProducts(newProducts);
+    setProducts(products.filter((el: Product) => el.id !== id));
   };
 
   const filteredProducts = () => {
@@ -112,7 +94,10 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
                 <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-yellow-400">
                   Toggle
                 </span>
-                <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-red-700">
+                <span
+                  onClick={remove.bind(this, el?.id)}
+                  className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-red-700"
+                >
                   Remove
                 </span>
               </div>
