@@ -3,3 +3,10 @@ export type Product = {
   title: string;
   archived: boolean;
 };
+
+export type rowDataType = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};

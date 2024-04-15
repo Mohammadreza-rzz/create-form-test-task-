@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ProductPage } from "@/components";
-import { Product } from "@/types";
+import { Product, rowDataType } from "@/types";
+import { ProductFormater } from "@/utils/formater";
 
 const getData = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
@@ -10,16 +11,18 @@ const getData = async () => {
 };
 
 export default async function Home() {
-  let data: any;
+  let data: rowDataType[] | null;
+  let formatedData;
   try {
     data = await getData();
-    console.log(data);
+    formatedData = !!data && ProductFormater(data);
   } catch (err: any) {
     data = null;
+    formatedData = null;
   }
   return (
     <>
-      <ProductPage data={data} />
+      <ProductPage data={formatedData} />
     </>
   );
 }

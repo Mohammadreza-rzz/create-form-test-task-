@@ -6,7 +6,8 @@ interface IProps {
   data: any;
 }
 
-const ProductPage: React.FC<IProps> = () => {
+const ProductPage: React.FC<IProps> = ({ data }) => {
+  console.log(data);
   const [products, setProducts] = useState<Product[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [filter, setFilter] = useState("all");
