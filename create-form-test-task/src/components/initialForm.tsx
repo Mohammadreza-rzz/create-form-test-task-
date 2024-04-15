@@ -1,5 +1,5 @@
 "use client";
-import React, { MouseEventHandler, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Product } from "@/types";
 
 interface IProps {
@@ -82,7 +82,7 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
 
       <ul className=" mt-10 px-5 flex flex-col space-y-4 ">
         {!!products &&
-          products.map((el: Product, index: number) => (
+          filteredProducts()?.map((el: Product, index: number) => (
             <li
               key={el.id}
               className="inline-flex items-center justify-between px-2 py-2 bg-red-400 "
@@ -108,16 +108,6 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
             </li>
           ))}
       </ul>
-
-      {/* {filteredProducts().map((product) => (
-          <li>
-            {product.title}
-            <button onClick={() => remove(product.id)}>Delete</button>
-            <button onClick={() => toggle(product.id)}>
-              {product.archived ? "Unarchive" : "Archive"}
-            </button>
-          </li>
-        ))} */}
     </div>
   );
 };
