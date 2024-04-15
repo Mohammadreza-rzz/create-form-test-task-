@@ -1,13 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Product } from "@/types";
 
-type Product = {
-  id: number;
-  title: string;
-  archived: boolean;
-};
+interface IProps {
+  data: any;
+}
 
-const ProductPage = () => {
+const ProductPage: React.FC<IProps> = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [filter, setFilter] = useState("all");
