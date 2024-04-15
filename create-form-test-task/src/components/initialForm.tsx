@@ -26,17 +26,18 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
   };
 
   const toggle = (id: number) => {
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id == id) {
-        products[i] = {
-          id: products[i].id,
-          title: products[i].title,
-          archived: products[i].archived ? false : true,
-        };
-        break;
-      }
-    }
-    setProducts(products);
+    setProducts(
+      products.map((el: Product) => {
+        if (el.id === id) {
+          return {
+            id: el.id,
+            title: el.title,
+            archived: !el.archived,
+          };
+        }
+        return el;
+      })
+    );
   };
 
   const remove = (id: number) => {
@@ -91,7 +92,10 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
                 <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-blue-700 w-28 text-center">
                   {!!el.archived ? "Archived" : "Active"}
                 </span>
-                <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-yellow-400">
+                <span
+                  onClick={toggle.bind(this, el?.id)}
+                  className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-yellow-400"
+                >
                   Toggle
                 </span>
                 <span
