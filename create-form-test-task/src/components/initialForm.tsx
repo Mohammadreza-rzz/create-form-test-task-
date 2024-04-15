@@ -22,9 +22,19 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
   //   };
 
   const add = () => {
-    products.push({ id: Date.now(), title: inputValue, archived: false });
-    setProducts(products);
-    setInputValue("");
+    if (!!inputValue) {
+      setProducts((preData: Product[]) => [
+        ...preData,
+        {
+          id: +preData[preData.length - 1]?.id + 1,
+          archived: false,
+          title: inputValue,
+        },
+      ]);
+    }
+    // products.push({ id: Date.now(), title: inputValue, archived: false });
+    // setProducts(products);
+    // setInputValue("");
   };
 
   const toggle = (id: number) => {
@@ -73,7 +83,10 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <div className="bg-green-500 px-10 py-3 mr-10 cursor-pointer active:scale-[95%] font-semibold text-white">
+          <div
+            onClick={add}
+            className="bg-green-500 px-10 py-3 mr-10 cursor-pointer active:scale-[95%] font-semibold text-white"
+          >
             Add
           </div>
           <select value={filter} onChange={(e) => setFilter(e.target.value)}>
@@ -84,21 +97,27 @@ const ProductPage: React.FC<IProps> = ({ data }) => {
         </div>
       </div>
 
-      <ul className="bg-red-400 mt-10 px-5 flex flex-col ">
-        <li className="inline-flex items-center justify-between py-2 ">
-          <p className="text-white">{"dasdhsaghdcghsa"}</p>
-          <div className="space-x-3">
-            <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-blue-700">
-              Archived
-            </span>
-            <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-yellow-400">
-              Toggle
-            </span>
-            <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-red-700">
-              Remove
-            </span>
-          </div>
-        </li>
+      <ul className=" mt-10 px-5 flex flex-col space-y-4 ">
+        {!!products &&
+          products.map((el: Product, index: number) => (
+            <li
+              key={el.id}
+              className="inline-flex items-center justify-between px-2 py-2 bg-red-400 "
+            >
+              <p className="text-white">{el.title}</p>
+              <div className="space-x-3">
+                <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-blue-700 w-28 text-center">
+                  {!!el.archived ? "Archived" : "Active"}
+                </span>
+                <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-yellow-400">
+                  Toggle
+                </span>
+                <span className="inline-block px-5 py-3 cursor-pointer active:scale-[95%] font-semibold text-white bg-red-700">
+                  Remove
+                </span>
+              </div>
+            </li>
+          ))}
       </ul>
 
       {/* {filteredProducts().map((product) => (
